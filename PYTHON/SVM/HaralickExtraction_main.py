@@ -21,3 +21,4 @@ else :
 	exit()
 
 haral.ComputeHaralick(image, chan, xrad, yrad)
+
