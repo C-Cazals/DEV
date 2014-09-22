@@ -1,0 +1,5 @@
+Afin de faire un lien automatique entre les executables compilé et le systeème linux
+voici la commande à executer pour les différents executables
+(svm-scale-bin svm-train-bin svm-predict-bin_prob svm-predict-bin_dist grid_polsarpro)
+
+ln -s chemin_complet_de_l_executable /usr/bin/nom_de_l_executable

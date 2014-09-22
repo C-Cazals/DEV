@@ -1,0 +1,2 @@
+svm-train-bin -b 1 -t 2 -g 0.5 -c 1000.0 /media/plf/cecile/DonneesRadar/Georef/training_norm.bin  /media/plf/cecile/DonneesRadar/Georef/svm_model.txt 15
+svm-predict-bin_dist 1 /media/plf/cecile/DonneesRadar/Georef/svm_model.txt /media/plf/cecile/DonneesRadar/Georef/range /media/plf/cecile/DonneesRadar/Georef/allImagesZ210mF7_classif_svm_noy_rbf_gamma_0.5_cout_1000.0 /media/plf/cecile/DonneesRadar/Georef/allImagesZ210mF7 /media/plf/cecile/DonneesRadar/Georef/addr.bin 15 1006 1007
