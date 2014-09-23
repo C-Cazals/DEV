@@ -119,7 +119,10 @@ def main( shapefile_path, raster_path ):
     shapef = ogr.Open(shapefile_path)
     lyr = shapef.GetLayer( os.path.split( os.path.splitext( shapefile_path )[0] )[1] )
     poly = lyr.GetNextFeature()
-
+    poly2=lyr.GetNextFeature()
+    minX, maxX, minY, maxY = lyr.GetExtent()
+    print minX, maxX, minY, maxY
+    exit("FIN")
     # Convert the layer extent to image pixel coordinates
     minX, maxX, minY, maxY = lyr.GetExtent()
     ulX, ulY = world2Pixel(geoTrans, minX, maxY)
@@ -169,8 +172,9 @@ def main( shapefile_path, raster_path ):
     for i in range(len(values)):
       if values[i]!=0 :
         va.append(10*(log10(values[i])))
-    xlim(0, 10)
-    boxPlot(va)
+
+    boxplot(va,0,)
+    show()
     exit("FIN")
     # This image has 3 bands so we stretch each one to make them
     # visually brighter
