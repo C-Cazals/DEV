@@ -3,7 +3,7 @@
 #
 # Example boxplot code
 #
-
+import matplotlib.pyplot as plt
 from pylab import *
 
 # fake up some data
@@ -12,19 +12,22 @@ center = ones(25) * 50
 flier_high = rand(10) * 100 + 100
 flier_low = rand(10) * -100
 data =concatenate((spread, center, flier_high, flier_low), 0)
+plt.xlim((25,250))
 
 # basic plot
 boxplot(data)
 
+
+
 # notched plot
-figure('c')
+figure()
 boxplot(data,1)
 # change outlier point symbols
-figure('r')
+figure()
 boxplot(data,0,'gD')
 
 # don't show outlier points
-figure('f')
+figure()
 boxplot(data,0,'')
 
 # horizontal boxes
@@ -32,7 +35,7 @@ figure()
 boxplot(data,0,'rs',0)
 
 # change whisker length
-figure('z')
+figure()
 boxplot(data,0,'rs',0,0.75)
 
 # fake up some more data

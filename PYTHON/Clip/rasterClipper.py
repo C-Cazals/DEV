@@ -122,7 +122,7 @@ def main( shapefile_path, raster_path ):
     poly2=lyr.GetNextFeature()
     minX, maxX, minY, maxY = lyr.GetExtent()
     print minX, maxX, minY, maxY
-    exit("FIN")
+    
     # Convert the layer extent to image pixel coordinates
     minX, maxX, minY, maxY = lyr.GetExtent()
     ulX, ulY = world2Pixel(geoTrans, minX, maxY)
@@ -175,7 +175,7 @@ def main( shapefile_path, raster_path ):
 
     boxplot(va,0,)
     show()
-    exit("FIN")
+ 
     # This image has 3 bands so we stretch each one to make them
     # visually brighter
    
