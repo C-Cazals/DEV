@@ -4,6 +4,7 @@
 import SVM as svm
 import sys, getopt
 
+
 if (len(sys.argv) == 3) :
 	image = sys.argv[1]
 	shape = sys.argv[2]
@@ -22,10 +23,16 @@ else :
 	print "OPTION : kernel(linear/rbf/poly/sigmoid) Trainig_Sample Validation_Sample"
 	exit()
 
-
+print("Compute Statistics ... ")
 svm.ComputeStat(image)
 
+print("Train SVM ... ")
 svm.TrainSVM(image, shape, kernel, trainingSample, validationSample)
-exit()
+
+print("Image Classification ... ")
 svm.ImageClassif(image)
-svm.ColorMap()
+
+print("Colorizing Classification ... ")
+svm.ColorMap(image)
+
+

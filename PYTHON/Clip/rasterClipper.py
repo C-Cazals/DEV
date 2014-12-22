@@ -109,20 +109,29 @@ def boxPlot(histo):
 def main( shapefile_path, raster_path ):
     # Load the source data as a gdalnumeric array
     srcArray = gdalnumeric.LoadFile(raster_path)
-
+    npsrcArray=np.array(srcArray)
+    
     # Also load as a gdal image to get geotransform
     # (world file) info
-    srcImage = gdal.Open(raster_path)
-    geoTrans = srcImage.GetGeoTransform()
-    dataType = gdal.GetDataTypeName(srcImage.GetRasterBand(1).DataType)
+    inDs = gdal.Open(raster_path)
+
+    geoTrans = inDs.GetGeoTransform()
+    dataType = gdal.GetDataTypeName(inDs.GetRasterBand(1).DataType)
+    imageComplete=[]
+    for bi in range(inDs.RasterCount):
+        band = inDs.GetRasterBand(bi + 1)
+        # Read this band into a 2D NumPy array
+        imageComplete.append(band.ReadAsArray())
+        print('Importing band ', bi)
     # Create an OGR layer from a boundary shapefile
     shapef = ogr.Open(shapefile_path)
     lyr = shapef.GetLayer( os.path.split( os.path.splitext( shapefile_path )[0] )[1] )
+
     poly = lyr.GetNextFeature()
     poly2=lyr.GetNextFeature()
     minX, maxX, minY, maxY = lyr.GetExtent()
     print minX, maxX, minY, maxY
-    
+
     # Convert the layer extent to image pixel coordinates
     minX, maxX, minY, maxY = lyr.GetExtent()
     ulX, ulY = world2Pixel(geoTrans, minX, maxY)
@@ -131,7 +140,8 @@ def main( shapefile_path, raster_path ):
     # Calculate the pixel size of the new image
     pxWidth = int(lrX - ulX)
     pxHeight = int(lrY - ulY)
-
+  
+  
     clip = srcArray[ulY:lrY, ulX:lrX]
 
     #

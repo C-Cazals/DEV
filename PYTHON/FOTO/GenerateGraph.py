@@ -38,42 +38,28 @@ def GenerateRspectra(radialS, data, idx, res):
 	plt.ylim((0, max))
 	plt.savefig('MeanRspectraInEachClass.png')
 
-def WriteRspectraImages(radialS, image, WindowsSize, pas):
+def WriteRspectraImages(radialSpectra):
 
-	[length, width]=image.shape
+	[length, width, dim]=radialSpectra.shape
 	rgbArray = np.zeros((length,width), 'uint8')
-	radialSnorm=radialS
-
-	
-	minVal=1000000000000
-	maxVal=0
-	for i in range(len(radialS)):
-		for j in range(len(radialS[i])):
-			if radialS[i][j]<1:
-				radialSnorm[i][j]=0
-			else:
-				if np.log(radialS[i][j]) < minVal:
-					minVal=np.log(radialS[i][j])
-				if np.log(radialS[i][j]) > maxVal:
-					maxVal=np.log(radialS[i][j])
-				radialSnorm[i][j]=np.log(radialS[i][j])
+	radialSpectraLog=np.log(radialSpectra)
+	radialSpectraLog[np.isneginf(radialSpectraLog)] = 0
+	radialSpectraLog100=np.around(radialSpectraLog, decimals=3)
+	minVal=0
+	maxVal=np.max(np.max(np.max(radialSpectraLog100)))
 	dynamic = maxVal-minVal
 	# print()
-	radialSnorm=((radialSnorm-minVal)/dynamic)*255
-	radialSnorm[radialSnorm<0]=0
+	radialSnorm=((radialSpectraLog100-minVal)/dynamic)*255
 
-	for r in range(radialSnorm.shape[1]):
-		k=0
-		for i in range( WindowsSize/2, length - WindowsSize/2, pas):
-			for j in range( WindowsSize/2, width - WindowsSize/2 +1 , pas):
-				# print(rgbArray[i-pas/2 : i + pas/2 +1, j-pas/2 : j+pas/2 + 1].shape)
-				# print(radialSnorm[k][r]*np.ones((pas,pas)).shape)
-				# print k, r
-				# print radialSnorm.shape
-				rgbArray[i-pas/2 : i + pas/2 +1, j-pas/2 : j+pas/2 + 1]=radialSnorm[k][r]*np.ones((pas,pas))
-				k+=1
+	
+
+	for r in range(dim):
+		for i in range(length):
+			for j in range(width):
+				rgbArray[i,j]=radialSnorm[i][j][r]
 		img = Image.fromarray(rgbArray)
 		img.save('radialSpectrumNumber'+str(r)+'.png')
+
 
 def GenerateIntertieACP(inertie):
 	fig = plt.figure()
@@ -120,8 +106,7 @@ def GenerateACPax1ax2TextureImage(data, idx, res, imagette, nb_classes):
 	plt.axvline(0, color='black')
 
 	line, = ax.plot(res.T[0],res.T[1],"bo",markersize=imageSize[0] * (dpi/ 96))
-	ax.get_frame().set_alpha(0)
-
+	fig.patch.set_alpha(0)
 	line._transform_path()
 	path, affine = line._transformed_path.get_transformed_points_and_affine()
 	path = affine.transform_path(path)
@@ -147,7 +132,7 @@ def GenerateClassif(image, WindowsSize, idx, data,pas):
 
 	for i in range( WindowsSize/2, length - WindowsSize/2, pas):
 		for j in range( WindowsSize/2, width - WindowsSize/2 +1 , pas):
-
+			
 			classe=idx[k]
 			rgbArray[i-pas/2 : i + pas/2 +1, j-pas/2 : j+pas/2 + 1,0]=(colors[classe][0]*image[i-pas/2 : i + pas/2 +1, j-pas/2 : j+pas/2 + 1]).astype(int)
 			rgbArray[i-pas/2 : i + pas/2 +1, j-pas/2 : j+pas/2 + 1,1]=(colors[classe][1]*image[i-pas/2 : i + pas/2 +1, j-pas/2 : j+pas/2 + 1]).astype(int)

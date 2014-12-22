@@ -1,0 +1,7 @@
+Voici les programmes en 64bits 
+j'avais lancé -> measureGG -f wvltCoeff_Hori.raw -m -w 21 -o output_GG_w21
+mais ca prends trop de temps, je viens de relancer ça ace une fenetre de 19
+
+pour la transformée en ondelettes :
+multiScale2D -f extrait_f4 -n 1 
+les fichiers sont dans /tmp/ avec des noms génériques wvltCoeff_xxxxx.raw / .raw.hdr

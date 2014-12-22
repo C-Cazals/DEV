@@ -43,7 +43,6 @@ def Rspectra(image):
 	# plt.xlabel("r")
 	# plt.ylabel("rSpectrum")
 	# plt.show()
-	# exit()
 	return radialSpectrum
 
 def TetaSpectra(image):
